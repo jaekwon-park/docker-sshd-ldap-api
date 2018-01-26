@@ -1,4 +1,4 @@
-FROM phusion/baseimage:latest
+FROM php:7.2.1-fpm-alpine3.7
 
 MAINTAINER Jaekwon Park <jaekwon.park@code-post.com>
 
@@ -10,25 +10,25 @@ MAINTAINER Jaekwon Park <jaekwon.park@code-post.com>
 CMD ["/sbin/my_init"]
 
 # Configure apt
-RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
-RUN apt-get -y update && \
-    C_ALL=C DEBIAN_FRONTEND=noninteractive apt-get -y install \
-    apache2 \
-    python-software-properties software-properties-common \
-    libapache2-mod-php7.1 php7.1 ldap-utils && \
-    apt-get clean && rm -r /var/lib/apt/lists/*
+#RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
+#RUN apt-get -y update && \
+#    C_ALL=C DEBIAN_FRONTEND=noninteractive apt-get -y install \
+#    apache2 \
+#    python-software-properties software-properties-common \
+#    libapache2-mod-php7.1 php7.1 ldap-utils && \
+#    apt-get clean && rm -r /var/lib/apt/lists/*
 
-COPY apache2-foreground /usr/local/bin/
+#COPY apache2-foreground /usr/local/bin/
 COPY get_public_key.php  .htaccess /var/www/html/
 COPY get_id.sh /shell/
 
 # Configure apache module
-RUN a2dismod mpm_event && \
-    a2enmod mpm_prefork rewrite && \
-    touch /var/www/html/index.html && \
-    chmod +x /shell/get_id.sh && \
-    ln -sf /dev/stdout /var/log/apache2/access.log && \
-    ln -sf /dev/stderr /var/log/apache2/error.log
+#RUN a2dismod mpm_event && \
+#    a2enmod mpm_prefork rewrite && \
+#    touch /var/www/html/index.html && \
+RUN chmod +x /shell/get_id.sh 
+#    ln -sf /dev/stdout /var/log/apache2/access.log && \
+#    ln -sf /dev/stderr /var/log/apache2/error.log
 
 #RUN rm -rf /etc/apache2/sites-available/000-default.conf 
 
@@ -36,4 +36,5 @@ WORKDIR /var/www/html
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+#CMD ["apache2-foreground"]
+CMD ["php-fpm"]
