@@ -26,7 +26,7 @@ COPY get_id.sh /shell/
 #RUN a2dismod mpm_event && \
 #    a2enmod mpm_prefork rewrite && \
 #    touch /var/www/html/index.html && \
-RUN chmod +x /shell/get_id.sh 
+RUN chmod +x /shell/get_id.sh /usr/local/bin/apache2-foreground
 #    ln -sf /dev/stdout /var/log/apache2/access.log && \
 #    ln -sf /dev/stderr /var/log/apache2/error.log
 
