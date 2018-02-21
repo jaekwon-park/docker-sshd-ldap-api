@@ -36,5 +36,5 @@ WORKDIR /var/www/html
 
 EXPOSE 80
 
-CMD ["/usr/local/bin/apache2-foreground/apache2-foreground"]
+CMD ["/usr/local/bin/apache2-foreground"]
 #CMD ["php-fpm"]
