@@ -18,7 +18,7 @@ CMD ["/sbin/my_init"]
 #    libapache2-mod-php7.1 php7.1 ldap-utils && \
 #    apt-get clean && rm -r /var/lib/apt/lists/*
 
-#COPY apache2-foreground /usr/local/bin/
+COPY apache2-foreground /usr/local/bin/
 COPY get_public_key.php  .htaccess /var/www/html/
 COPY get_id.sh /shell/
 
