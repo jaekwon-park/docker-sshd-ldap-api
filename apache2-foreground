@@ -7,6 +7,7 @@ sed -i "s/ADMIN_DN_PASS/$ADMIN_DN_PASS/g" /shell/get_id.sh
 sed -i "s/LDAP_BASE/$LDAP_BASE/g" /shell/get_id.sh
 
 # Apache gets grumpy about PID files pre-existing
-rm -f /var/run/apache2/apache2.pid
+#rm -f /var/run/apache2/apache2.pid
 
-/usr/sbin/apache2ctl -D FOREGROUND
+#/usr/sbin/apache2ctl -D FOREGROUND
+php-fpm
