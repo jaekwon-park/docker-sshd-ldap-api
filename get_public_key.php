@@ -25,6 +25,11 @@
  * @deprecated File deprecated in Release 0.0.1
  */
 
+// get enviroment from Shell
+$admin_dn = getenv('ADMIN_DN');
+$admin_dn_pass = getenv('ADMIN_DN_PASS');
+$ldap_base = getenv('LDAP_BASE');
+
 // get IP parameter from client
 $aParam['ip']	= trim(filter_input(INPUT_GET, 'ip', FILTER_SANITIZE_STRING));
 
@@ -32,8 +37,10 @@ if(!$aParam['ip']) {
      return false;
 }
 
+$command = '/shell/get_id.sh --admin '.$admin_dn.' --pass '.$admin_dn_pass.' --base '.$ldap_base;
+
 // call get_id.sh shell script using ip to return id 
-exec('/shell/get_id.sh '.$aParam['ip'], $aId);
+exec($command.' --server '.$aParam['ip'], $aId);
 
 // return public key using id 
 // check id array
