@@ -37,11 +37,11 @@ done
 for i in $(ldapsearch -LLL -h ldap -D "$ADMIN_DN " -w $ADMIN_DN_PASS -x -b "ou=group,$LDAP_BASE" "(&(objectClass=*))" cn | grep cn: | awk '{print $2}'); do
     if [[ $(ldapsearch -LLL -h ldap -D "$ADMIN_DN " -w $ADMIN_DN_PASS -x -b "cn=$i,ou=host,$LDAP_BASE" "(&(objectClass=nisNetgroup)(nisNetgroupTriple=*))" | grep $server_ip | wc -l) -eq 1 ]]; then
         group_name=$(ldapsearch -LLL -h ldap -D "$ADMIN_DN " -w $ADMIN_DN_PASS -x -b "cn=$i,ou=group,$LDAP_BASE" "(&(objectClass=*))" gidNumber | grep gidNumber: | awk '{print $2}')
-        id=$(ldapsearch -LLL -h ldap -D "$ADMIN_DN " -w $ADMIN_DN_PASS -x -b "ou=people,$LDAP_BASE" "(&(objectclass=posixAccount)(gidNumber=$group_name))" cn | grep ^cn: | awk '{print $2}')
-        if [[ -f /key/$id.pub ]]; then
+        for id in $(ldapsearch -LLL -h ldap -D "$ADMIN_DN " -w $ADMIN_DN_PASS -x -b "ou=people,$LDAP_BASE" "(&(objectclass=posixAccount)(gidNumber=$group_name))" cn | grep ^cn: | awk '{print $2}'); do 
+          if [[ -f /key/$id.pub ]]; then
             echo $id.pub
-        fi
-
+          fi
+        done
     fi
 done
 # Get Admin ID
